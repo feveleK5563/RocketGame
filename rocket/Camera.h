@@ -213,6 +213,9 @@ struct MoveCameraData
 	float moveviewTime;
 	float movegameTime;
 
+	//スイング移動
+	bool swingCamera;
+
 	Camera camera;
 
 	MoveCameraData() :
@@ -220,9 +223,10 @@ struct MoveCameraData
 		setViewPos(Position()),
 		setGamePos(Position()),
 		moveviewTime(0.f),
-		movegameTime(0.f){}
+		movegameTime(0.f),
+		swingCamera(true){}
 
-	//カメラ設定
+	//画面上カメラ設定
 	//引数：画面上座標(Position), 画面上座標への移動時間(float)
 	void SetViewCamera(Position svp, float mvt)
 	{
@@ -230,7 +234,7 @@ struct MoveCameraData
 		moveviewTime = mvt;
 	}
 
-	//ぬわぁぁん疲れたもぉぉぉん
+	//ゲーム内カメラ設定
 	//引数：ゲーム内座標(Position), ゲーム内座標への移動時間
 	void SetGameCamera(Position sgp, float mgt)
 	{
@@ -245,7 +249,8 @@ struct MoveCameraData
 		bool endViewMove, endGameMove;
 		endViewMove = camera.MoveViewPort(setViewPos, moveviewTime);
 		endGameMove = camera.SlowSetCPos(setGamePos, movegameTime);
-		camera.SwayPosition();
+		if (swingCamera)
+			camera.SwayPosition();
 		camera.AddVector();
 		endGameMove = camera.BackPosition() || endGameMove;
 		return endViewMove && endGameMove;

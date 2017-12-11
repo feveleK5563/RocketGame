@@ -61,7 +61,7 @@ public:
 	//–ß‚è’lF“®ì‚ªŠ®—¹‚µ‚½‚©‚Ç‚¤‚©
 	bool ShuMoveStop()
 	{
-		if (time <= speed * 10)
+		if (time <= speed * 30)
 		{
 			++time;
 			pos->x += (endpos.x - pos->x) / speed;

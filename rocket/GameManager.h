@@ -96,6 +96,7 @@ struct GameManager
 				break;
 			}
 			player[i].ui.Initialize(egauge, tgauge, mPlayer, mColor);
+			player[i].camData->swingCamera = true;
 		}
 		player[0].rocket.state = Nomal;
 		player[1].rocket.state = Nomal;
@@ -139,6 +140,11 @@ struct GameManager
 			if (canMove = count.GameEnd())
 			{
 				gameORresult = false;
+				for (int i = 0; i < 2; ++i)
+				{
+					player[i].camData->swingCamera = false;
+					player[i].rocket.state = Non;
+				}
 				fade.ImageSet(PositionI(0, 0), "FadeImg", ML::Box2D(0, 0, 720, 405));
 				fade.FadeSwitch(false, 180, 0.7f);
 			}

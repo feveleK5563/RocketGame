@@ -630,10 +630,9 @@ public:
 			if (!toRocketHit)
 				MoveRocket();
 			ChangeSpeed(camera);
+			jetAnim.UpdateJet(pos, speed);
 		}
 		ChangeState(GP, canMove);
-		
-		jetAnim.UpdateJet(pos, speed);
 		noRender = explode.UpdateExplode();
 	}
 
