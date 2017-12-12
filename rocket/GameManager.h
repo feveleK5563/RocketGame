@@ -1,6 +1,7 @@
 #pragma once
 #include "TaskFlag.h"
 #include "CountDown.h"
+#include "ResultManager.h"
 
 //-----------------------------------------------------------------------------
 //プレイヤー
@@ -36,6 +37,8 @@ struct GameManager
 	bool winPlayer;
 	//ゲーム本編とリザルト画面の遷移(trueでゲーム本編、falseでリザルト画面)
 	bool gameORresult;
+	//リザルト画面の管理
+	ResultManager rm;
 
 	GameManager(DI::VGamePad* pad, int* md, int* pn, MoveCameraData* camD, MapManager* mapM, bool* em) :
 		playerNum(pn),
@@ -145,8 +148,7 @@ struct GameManager
 					player[i].camData->swingCamera = false;
 					player[i].rocket.state = Non;
 				}
-				fade.ImageSet(PositionI(0, 0), "FadeImg", ML::Box2D(0, 0, 720, 405));
-				fade.FadeSwitch(false, 180, 0.7f);
+				rm.Initialize();
 			}
 
 		for (int i = 0; i < *playerNum; ++i)
@@ -191,9 +193,9 @@ struct GameManager
 
 	//------------------------------------------------------------------------------------------------
 	//リザルト画面の更新処理
-	void ResultUpdate()
+	void ResultUpdate(Fade& fade)
 	{
-		
+		rm.Animation(fade);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -205,7 +207,7 @@ struct GameManager
 		if (gameORresult)
 			GameUpdate(tf, mapManager, MapLength, mapOrder, fade);
 		else
-			ResultUpdate();
+			ResultUpdate(fade);
 
 		return tf;
 	}

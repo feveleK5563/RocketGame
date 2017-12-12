@@ -60,7 +60,7 @@ public:
 			else
 			{
 				slide.ChangePosition(Position(360.f, -85.f), Position(360.f, 203.f));
-				slide.Initialize(7.f);
+				slide.Initialize(2.5f);
 			}
 		}
 		if (transition == 3)

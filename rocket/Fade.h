@@ -46,7 +46,7 @@ public:
 
 	//フェードフラグ
 	//引数：フェードインかフェードアウト(bool, trueでイン falseでアウト), フェード完了までのフレーム数(int, デフォルトで60)
-	//	　　フェード色制限(float, デフォルトで-1.f(無効))
+	//	　　フェード色制限(float, デフォルトで-1.f(0.fか1.f))
 	void FadeSwitch(bool InOut, int time = 60, float limit = -1.f)
 	{
 		if (InOut)

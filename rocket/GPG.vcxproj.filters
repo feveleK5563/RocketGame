@@ -219,6 +219,9 @@
     <ClInclude Include="SlideMove.h">
       <Filter>Game\Main\header</Filter>
     </ClInclude>
+    <ClInclude Include="ResultManager.h">
+      <Filter>Game\Main\header\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shader\MyStdShader.fx" />

@@ -8,8 +8,8 @@ private:
 	float		moveTiming;
 	float		speed;
 	float		time;
-	Position startpos;
-	Position endpos;
+	Position	startpos;
+	Position	endpos;
 	Position*	pos;
 
 public:
@@ -58,14 +58,15 @@ public:
 	}
 
 	//動作 (なんか指定座標に向かってシュって移動して停止するあの動きですよ)
-	//戻り値：動作が完了したかどうか
+	//戻り値：動作が完了したか否か
 	bool ShuMoveStop()
 	{
-		if (time <= speed * 30)
+		if (time <= 180.f)
 		{
-			++time;
-			pos->x += (endpos.x - pos->x) / speed;
-			pos->y += (endpos.y - pos->y) / speed;
+			time += 1.f * speed;
+			moveTiming = cos(ML::ToRadian(time)) + 1.f;
+			pos->x += (endpos.x - startpos.x) / (180.f / speed) * moveTiming;
+			pos->y += (endpos.y - startpos.y) / (180.f / speed) * moveTiming;
 			return false;
 		}
 		return true;

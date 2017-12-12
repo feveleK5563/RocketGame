@@ -1,34 +1,74 @@
 #pragma once
 #include "TaskFlag.h"
 
-struct ResultManager
+class ResultManager
 {
-	//ゲームパッド
-	DI::VGamePad* in[2];
-	//モード
-	int* mode;
-	//プレイヤー数
-	int* playerNum;
-	//どっちが勝ったか
-	bool winPlayer;
-	//クリア時間
-	int clearTime;
+private:
+	//時間(タイミング)計測
+	int time;
+	//現在のフラグと次のフラグ
+	int nowFlag;
+	int nextFlag;
 
-	ResultManager(DI::VGamePad* pad, int* md, int* pn):
-		mode(md),
-		playerNum(pn)
+public:
+
+	//初期化
+	void Initialize()
 	{
-		for (int i = 0; i < 2; ++i)
-		{
-			in[i] = pad + i;
-		}
+		time = 0;
+		nowFlag = 0;
+		nextFlag = 0;
 	}
 
-	//----------------------------------------------------------------------------
-	//初期化処理
-	void Initialize(int cleart, bool winp)
+	//アニメーション変更時の処理
+	void ChangeAnim(Fade& fade)
 	{
-		winPlayer = winp;
-		clearTime = cleart;
+		switch (nextFlag)
+		{
+		case 1:
+			fade.ImageSet(PositionI(0, 0), "FadeImg", ML::Box2D(0, 0, 720, 405));
+			fade.FadeSwitch(false, 70, 0.6f);
+			break;
+
+		default:
+			break;
+		}
+		nowFlag = nextFlag;
+	}
+
+	//アニメーション処理
+	void Animation(Fade& fade)
+	{
+		//現在のフラグと次のフラグが異なる場合
+		if (nowFlag != nextFlag)
+			ChangeAnim(fade);
+
+		//基本的な処理はここに書け
+		bool endFlag = false;
+		switch (nowFlag)
+		{
+		case 0:
+			++time;
+			endFlag = time > 60;
+			break;
+
+		case 1:
+			endFlag = fade.endFade;
+			break;
+
+		case 2:
+
+			break;
+
+		default:
+			break;
+		}
+
+		//フラグ遷移
+		if (endFlag)
+		{
+			time = 0;
+			++nextFlag;
+		}
 	}
 };

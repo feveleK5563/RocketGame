@@ -126,6 +126,7 @@
     <ClInclude Include="myLib.h" />
     <ClInclude Include="MyPG.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="ResultManager.h" />
     <ClInclude Include="Rocket.h" />
     <ClInclude Include="SlideMove.h" />
     <ClInclude Include="TaskFlag.h" />
