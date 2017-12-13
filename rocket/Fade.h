@@ -3,6 +3,8 @@
 #include "Position.h"
 
 //指定画像でフェードイン、フェードアウトする
+//フェードイン… 画像を薄くする
+//フェードアウト… 画像を濃くする
 class Fade
 {
 private:
@@ -37,22 +39,27 @@ public:
 
 	//画像のセット
 	//引数：画像の表示位置(PositionI), 画像名(string), 画像を読み込む大きさ(ML::Box2D)
+	//※注 直後にFadeSwitchを呼んでください
 	void ImageSet(PositionI setpos, string imgnm, ML::Box2D img2d)
 	{
 		pos = setpos;
 		imgName = imgnm;
 		src = img2d;
+		visible = -1.f;
 	}
 
-	//フェードフラグ
-	//引数：フェードインかフェードアウト(bool, trueでイン falseでアウト), フェード完了までのフレーム数(int, デフォルトで60)
+	//フェード設定
+	//引数：フェードインかフェードアウト(bool, trueでイン falseでアウト), フェード完了までのフレーム数(int, デフォで60)
 	//	　　フェード色制限(float, デフォルトで-1.f(0.fか1.f))
+	//※注 フェード色をリセットする場合、直前にImageSetを呼んでくだしあ
 	void FadeSwitch(bool InOut, int time = 60, float limit = -1.f)
 	{
 		if (InOut)
 		{
 			fadestate = FadeIn;
-			visible = 1.f;
+			if (visible == -1.f)
+				visible = 1.f;
+
 			if (limit == -1.f)
 				visibleLimit = 0.f;
 			else
@@ -61,7 +68,9 @@ public:
 		else
 		{
 			fadestate = FadeOut;
-			visible = 0.f;
+			if (visible == -1.f)
+				visible = 0.f;
+
 			if (limit == -1.f)
 				visibleLimit = 1.f;
 			else

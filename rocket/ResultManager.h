@@ -49,7 +49,7 @@ public:
 		{
 		case 0:
 			++time;
-			endFlag = time > 60;
+			endFlag = time > 90;
 			break;
 
 		case 1:
