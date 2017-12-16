@@ -27,7 +27,7 @@ public:
 		{
 		case 1:
 			fade.ImageSet(PositionI(0, 0), "FadeImg", ML::Box2D(0, 0, 720, 405));
-			fade.FadeSwitch(false, 70, 0.6f);
+			fade.FadeSwitch(false, 50, 0.6f);
 			break;
 
 		default:
@@ -57,7 +57,12 @@ public:
 			break;
 
 		case 2:
+			++time;
+			endFlag = time > 70;
+			break;
 
+		case 3:
+			endFlag = true;
 			break;
 
 		default:
