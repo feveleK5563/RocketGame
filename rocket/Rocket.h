@@ -194,6 +194,11 @@ public:
 	//煙メモリ解放(ゲームクリア時に呼び出す)
 	void EndJet()
 	{
+		int size = smoke.size();
+		for (int i = 0; i < size; ++i)
+		{
+			delete smoke[i];
+		}
 		smoke.clear();
 		smoke.shrink_to_fit();
 	}
