@@ -61,7 +61,9 @@ public:
 			endFlag = time > 70;
 			break;
 
-		case 3:
+		case 3: //ここを今考えているのだよ君
+				//クリアタイム(あるいは勝利プレイヤー)を表示して、
+				//ボタン入力があったらタイトル画面に遷移してほしいのだよ君
 			endFlag = true;
 			break;
 
