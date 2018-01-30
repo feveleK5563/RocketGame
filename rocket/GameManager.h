@@ -193,9 +193,17 @@ struct GameManager
 
 	//------------------------------------------------------------------------------------------------
 	//リザルト画面の更新処理
-	void ResultUpdate(Fade& fade)
+	void ResultUpdate(Fade& fade, TaskFlag& tf)
 	{
-		rm.Animation(fade);
+		if (rm.Animation(fade, *in[0]))
+		{
+			for (int i = 0; i < 2; ++i)
+			{
+				player[i].camData->swingCamera = true;
+			}
+			fade.FadeSwitch(true, 120);
+			tf = Task_Title;
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -207,7 +215,7 @@ struct GameManager
 		if (gameORresult)
 			GameUpdate(tf, mapManager, MapLength, mapOrder, fade);
 		else
-			ResultUpdate(fade);
+			ResultUpdate(fade, tf);
 
 		return tf;
 	}

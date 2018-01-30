@@ -50,7 +50,7 @@ public:
 
 	//フェード設定
 	//引数：フェードインかフェードアウト(bool, trueでイン falseでアウト), フェード完了までのフレーム数(int, デフォで60)
-	//	　　フェード色制限(float, デフォルトで-1.f(0.fか1.f))
+	//	　　フェード色制限(float, デフォルトで-1.f(自動で0.fか1.fになる))
 	//※注 フェード色をリセットする場合、直前にImageSetを呼んでくだしあ
 	void FadeSwitch(bool InOut, int time = 60, float limit = -1.f)
 	{

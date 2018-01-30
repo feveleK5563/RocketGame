@@ -30,6 +30,10 @@ public:
 			fade.FadeSwitch(false, 50, 0.6f);
 			break;
 
+		case 5:
+			fade.FadeSwitch(false, 120);
+			break;
+
 		default:
 			break;
 		}
@@ -37,7 +41,7 @@ public:
 	}
 
 	//アニメーション処理
-	void Animation(Fade& fade)
+	bool Animation(Fade& fade, DI::VGamePad& in)
 	{
 		//現在のフラグと次のフラグが異なる場合
 		if (nowFlag != nextFlag)
@@ -64,7 +68,20 @@ public:
 		case 3: //ここを今考えているのだよ君
 				//クリアタイム(あるいは勝利プレイヤー)を表示して、
 				//ボタン入力があったらタイトル画面に遷移してほしいのだよ君
+			if (in.B1.down)
+			{
+				endFlag = true;
+			}
+			break;
+
+		case 4:
 			endFlag = true;
+			break;
+			
+		case 5:
+			if (fade.endFade)
+				++time;
+			endFlag = time > 60;
 			break;
 
 		default:
@@ -74,8 +91,13 @@ public:
 		//フラグ遷移
 		if (endFlag)
 		{
+			endFlag = false;
 			time = 0;
 			++nextFlag;
+
+			if (nextFlag >= 6)
+				return true;
 		}
+		return false;
 	}
 };

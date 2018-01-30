@@ -45,6 +45,7 @@ struct TitleManager
 			camData[0]->camera.view.x = 180.f;
 			camData[1]->camera.view.x = leftSide.x;
 			focus[0] = Position(50.f, MapLength * -360.f);
+			camData[0]->camera.SetCPos(focus[0]);
 		}
 		else if (*playerNum == 2)
 		{
@@ -52,6 +53,7 @@ struct TitleManager
 			{
 				camData[i]->camera.view.x = i * (camData[i]->camera.view.w + 1);
 				focus[i] = Position(50.f, MapLength * -360.f);
+				camData[i]->camera.SetCPos(focus[i]);
 			}
 		}
 		else
