@@ -35,7 +35,7 @@ struct GameManager
 	CountDown count;
 	//勝ってるプレイヤー
 	bool winPlayer;
-	//ゲーム本編とリザルト画面の遷移(trueでゲーム本編、falseでリザルト画面)
+	//ゲーム本編とリザルト画面の遷移フラグ(trueでゲーム本編、falseでリザルト画面)
 	bool gameORresult;
 	//リザルト画面の管理
 	ResultManager rm;
@@ -60,6 +60,7 @@ struct GameManager
 		img.RocketImageCreate();
 		img.UIImageCreate();
 		img.CountDownImageCreate();
+		img.ResultImageCreate();
 
 		count.Initialize();
 		gameORresult = true;
@@ -113,6 +114,9 @@ struct GameManager
 		sUI.Initialize(timer);
 
 		winPlayer = 0;
+
+		//結果画面
+		rm.Initialize();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -122,6 +126,7 @@ struct GameManager
 		img.RocketImageErase();
 		img.UIImageErase();
 		img.CountDownImageErase();
+		img.ResultImageErase();
 		for (int i = 0; i < 2; ++i)
 		{
 			player[i].rocket.state = Non;
@@ -135,7 +140,7 @@ struct GameManager
 	{
 		//ロケットが操作を受け付けるか否か
 		bool canMove = false;
-		//ゲーム開始時の時間計り
+		//ゲーム開始前の時間計測
 		canMove = count.GameStart(*endMove);
 
 		//ゲーム終了時のFINISHの表示
@@ -148,7 +153,6 @@ struct GameManager
 					player[i].camData->swingCamera = false;
 					player[i].rocket.state = Non;
 				}
-				rm.Initialize();
 			}
 
 		for (int i = 0; i < *playerNum; ++i)
@@ -243,5 +247,10 @@ struct GameManager
 	void RenderStageUI()
 	{
 		sUI.Render();
+	}
+
+	void RenderResult()
+	{
+		rm.ResultRender(sUI.PutTime());
 	}
 };

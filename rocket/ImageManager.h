@@ -128,4 +128,16 @@ struct ImageManager
 	{
 		DG::Image_Erase("Count");
 	}
+
+	//結果画面で使用する画像を読み込むよ！
+	void ResultImageCreate()
+	{
+		DG::Image_Create("Result", "./data/image/UI/Result.png");
+	}
+
+	//結果画面で使用する画像を解放するよ！
+	void ResultImageErase()
+	{
+		DG::Image_Erase("Result");
+	}
 };

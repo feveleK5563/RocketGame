@@ -228,5 +228,8 @@ struct TaskManager
 
 		//フェード
 		fade.Render();
+
+		if (actTask == Task_Game)
+			gm.RenderResult();
 	}
 };
