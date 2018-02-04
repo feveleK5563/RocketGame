@@ -350,6 +350,26 @@ public:
 		return time;
 	}
 
+	//w’èˆø”‚É‚æ‚Á‚Ä•ªA•b‚Ìˆê‚ÌˆÊ‚Æ\‚ÌˆÊ‚ğ•Ô‚·
+	unsigned int ReturnTimeMS(unsigned int type)
+	{
+		switch (type)
+		{
+		case 0:
+			return minute[0];
+
+		case 1:
+			return minute[1];
+
+		case 2:
+			return second[0];
+
+		case 3:
+			return second[1];
+		}
+		return 0;
+	}
+
 	//•`‰æ
 	void Render()
 	{
@@ -436,10 +456,9 @@ public:
 //UIŠÇ—(ˆê‚Â‚Ì‚İì¬)
 class StageUI
 {
-private:
+public:
 	Timer timer;
 
-public:
 	void Initialize(PositionI timePos)
 	{
 		timer.Initialize(timePos);
@@ -448,11 +467,6 @@ public:
 	void Update(bool timerOn)
 	{
 		timer.Update(timerOn);
-	}
-
-	int PutTime()
-	{
-		return timer.PutTime();
 	}
 
 	void Render()

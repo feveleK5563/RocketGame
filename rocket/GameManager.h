@@ -114,9 +114,6 @@ struct GameManager
 		sUI.Initialize(timer);
 
 		winPlayer = 0;
-
-		//Œ‹‰Ê‰æ–Ê
-		rm.Initialize();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -153,6 +150,7 @@ struct GameManager
 					player[i].camData->swingCamera = false;
 					player[i].rocket.state = Non;
 				}
+				rm.Initialize(*playerNum);
 			}
 
 		for (int i = 0; i < *playerNum; ++i)
@@ -251,6 +249,6 @@ struct GameManager
 
 	void RenderResult()
 	{
-		rm.ResultRender(sUI.PutTime());
+		rm.ResultRender(sUI.timer, *playerNum, winPlayer);
 	}
 };

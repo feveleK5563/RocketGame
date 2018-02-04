@@ -1,5 +1,6 @@
 #pragma once
 #include "TaskFlag.h"
+#include "UI.h"
 
 class ResultManager
 {
@@ -26,10 +27,10 @@ public:
 	//コンストラクタ
 	ResultManager():
 		resultSlide(&resultPos, Position(720, 25), Position(10, 25)),
-		twSlide(&twPos, Position(-262, 210), Position(350, 210)){}
+		twSlide(&twPos, Position(-262, 170), Position(240, 170)){}
 
 	//初期化
-	void Initialize()
+	void Initialize(const int playerNum)
 	{
 		time = 0;
 		nowFlag = 0;
@@ -38,16 +39,25 @@ public:
 		resultImg = { 0, 0, 552, 80 };
 		for (int i = 0; i < 11; ++i)
 		{
-			if (i == 10)
-				timeandDotImg[i] = { 58 * i, 0, 58, 80 };
+			if (i < 10)
+				timeandDotImg[i] = { 58 * i, 80, 58, 80 };
 			else
-				timeandDotImg[i] = { 58 * i, 0, 30, 80 };
+				timeandDotImg[i] = { 58 * i, 80, 30, 80 };
 		}
 		for (int i = 0; i < 2; ++i)
 		{
-			winnerImg[i] = { 0, 174 * (i + 1), 610, 116 };
+			winnerImg[i] = { 0, 174 + (i * 116), 610, 116 };
 		}
+		resultSlide.ChangePosition(Position(720, 25), Position(10, 25));
 		resultSlide.Initialize(5.f);
+		if (playerNum <= 1)
+		{
+			twSlide.ChangePosition(Position(-262, 170), Position(240, 170));
+		}
+		else
+		{
+			twSlide.ChangePosition(Position(-620, 170), Position(70, 170));
+		}
 		twSlide.Initialize(5.f);
 	}
 
@@ -58,7 +68,7 @@ public:
 		{
 		case 1:
 			fade.ImageSet(PositionI(0, 0), "FadeImg", ML::Box2D(0, 0, 720, 405));
-			fade.FadeSwitch(false, 50, 0.6f);
+			fade.FadeSwitch(false, 50, 0.8f);
 			break;
 
 		default:
@@ -103,16 +113,16 @@ public:
 		case 4: //ボタン入力があったらタイトル画面に遷移する
 			if (in.B1.down)
 			{
-				resultSlide.ChangePosition(resultPos, { resultPos.x, -80.f });
+				resultSlide.ChangePosition(resultPos, { resultPos.x, 420.f });
 				resultSlide.Initialize(5.f);
-				twSlide.ChangePosition(twPos, { twPos.x, 405.f });
+				twSlide.ChangePosition(twPos, { twPos.x, -120.f });
 				twSlide.Initialize(5.f);
 				endFlag = true;
 			}
 			break;
 			
 		case 5:
-			if (resultSlide.ShuMoveStop() &&
+			if (resultSlide.ShuMoveStop() ||
 				twSlide.ShuMoveStop())
 			{
 				fade.FadeSwitch(false, 120);
@@ -123,7 +133,7 @@ public:
 		case 6:
 			if (fade.endFade)
 				++time;
-			endFlag = time > 60;
+			endFlag = time > 120;
 			break;
 
 		default:
@@ -143,7 +153,42 @@ public:
 		return false;
 	}
 
-	void ResultRender(int timerTime)
+	//時間表示
+	void RenderTime(Timer& tm)
+	{
+		int i = 0;
+		for (; i < 2; ++i)
+		{
+			ML::Box2D draw = timeandDotImg[0];
+			draw.x = 0; draw.y = 0;
+			draw.Offset(twPos.x + (timeandDotImg[0].w * i), twPos.y);
+			DG::Image_Draw("Result", draw, timeandDotImg[tm.ReturnTimeMS(i)]);
+		}
+		{
+			ML::Box2D draw = timeandDotImg[10];
+			draw.x = 0; draw.y = 0;
+			draw.Offset(twPos.x + (timeandDotImg[0].w * i), twPos.y);
+			DG::Image_Draw("Result", draw, timeandDotImg[10]);
+		}
+		for (; i < 4; ++i)
+		{
+			ML::Box2D draw = timeandDotImg[0];
+			draw.x = 0; draw.y = 0;
+			draw.Offset(twPos.x + (timeandDotImg[0].w * i) + timeandDotImg[10].w, twPos.y);
+			DG::Image_Draw("Result", draw, timeandDotImg[tm.ReturnTimeMS(i)]);
+		}
+	}
+
+	//勝者表示
+	void RenderWinner(const bool winPlayer)
+	{
+		ML::Box2D draw = winnerImg[0];
+		draw.x = 0; draw.y = 0;
+		draw.Offset(twPos.x, twPos.y);
+		DG::Image_Draw("Result", draw, winnerImg[(int)winPlayer]);
+	}
+
+	void ResultRender(Timer& tm, const int playerNum, const bool winPlayer)
 	{
 		if (nowFlag < 3)
 			return;
@@ -153,8 +198,13 @@ public:
 			draw.Offset(resultPos.x, resultPos.y);
 			DG::Image_Draw("Result", draw, resultImg);
 		}
-		{ //ゴール時間か勝利プレイヤーの表示
-
+		if (playerNum <= 1)	//クリアタイムの表示
+		{
+			RenderTime(tm);
+		}
+		else				//勝利プレイヤーの表示
+		{
+			RenderWinner(winPlayer);
 		}
 	}
 };
