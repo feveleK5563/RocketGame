@@ -4,13 +4,13 @@
 #include "GameManager.h"
 
 //地下ステージ
-const int Underground = 4; //40
+const int Underground = 40; //40
 //ビルステージ
-const int Building = 4; //40
+const int Building = 40; //40
 //空ステージ
-const int Sky = 4; //50
+const int Sky = 50; //50
 //宇宙ステージ
-const int Space = 4; //17
+const int Space = 17; //17
 //各ステージ間の長さ
 const int toB = Underground + Building;	//ビルステージ終了までの長さ
 const int toS = toB + Sky;				//空ステージ終了までの高さ
